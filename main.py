@@ -5,7 +5,6 @@ from openai import OpenAI, OpenAIError
 from dotenv import load_dotenv
 from config_manager import load_config, save_config, reset_config, reset_api_key
 
-
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 logging.basicConfig(
@@ -19,6 +18,7 @@ logging.basicConfig(
 
 load_dotenv()
 
+
 def get_api_key():
     api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
@@ -31,12 +31,14 @@ def get_api_key():
         logging.info("Nowy klucz API zapisany w pliku .env.")
     return api_key
 
+
 parser = argparse.ArgumentParser(description='Przetwarzanie artykułu za pomocą OpenAI API.')
 parser.add_argument('--set_model', type=str, help='Ustaw model OpenAI i zapisz go w konfiguracji.')
 parser.add_argument('--set_temperature', type=float, help='Ustaw parametr temperature i zapisz go w konfiguracji.')
 parser.add_argument('--set_max_tokens', type=int, help='Ustaw parametr max_tokens i zapisz go w konfiguracji.')
 parser.add_argument('--reset_config', action='store_true', help='Resetuj konfigurację do wartości domyślnych.')
-parser.add_argument('--reset_api_key', action='store_true', help='Usuń zapisany klucz API i poproś o nowy przy kolejnym uruchomieniu.')
+parser.add_argument('--reset_api_key', action='store_true',
+                    help='Usuń zapisany klucz API i poproś o nowy przy kolejnym uruchomieniu.')
 parser.add_argument('--input_file', type=str, default='artykul.txt', help='Ścieżka do pliku z artykułem.')
 parser.add_argument('--output_file', type=str, default='artykul.html', help='Ścieżka do pliku wyjściowego.')
 args = parser.parse_args()
@@ -67,7 +69,8 @@ if args.reset_api_key:
     reset_api_key()
     logging.info('Klucz API został usunięty. Program poprosi o jego wprowadzenie przy następnym uruchomieniu.')
 
-if not any([args.set_model, args.set_temperature is not None, args.set_max_tokens is not None, args.reset_config, args.reset_api_key]):
+if not any([args.set_model, args.set_temperature is not None, args.set_max_tokens is not None, args.reset_config,
+            args.reset_api_key]):
     if not os.path.isfile(args.input_file):
         logging.error(f'Plik {args.input_file} nie istnieje.')
         exit(1)
