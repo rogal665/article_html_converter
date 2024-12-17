@@ -5,7 +5,7 @@ CONFIG_FILE = 'config.json'
 ENV_FILE = '.env'
 
 DEFAULT_CONFIG = {
-    "model": "gpt-3.5-turbo",
+    "model": "gpt-4o",
     "temperature": 0.7,
     "max_tokens": 2048
 }
